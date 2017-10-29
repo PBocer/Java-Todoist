@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -47,9 +46,17 @@ public class TaskController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ModelAndView addNewTask(@Valid @ModelAttribute("task") Task task, ModelAndView modelAndView) {
+    public ModelAndView addNewTask(@ModelAttribute("task") Task task, ModelAndView modelAndView) {
         taskFacade.save(task);
         return prepareTaskList(modelAndView);
+    }
+
+    @RequestMapping("/edit")
+    public ModelAndView editTask(@RequestParam("id") String id, ModelAndView modelAndView) {
+        Task task = taskFacade.findTaskById(Long.parseLong(id));
+        modelAndView.addObject("task", task);
+        modelAndView.setViewName("taskForm");
+        return modelAndView;
     }
 
     @RequestMapping("/generateData")

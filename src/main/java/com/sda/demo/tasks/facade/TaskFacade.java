@@ -5,7 +5,7 @@ import com.sda.demo.tasks.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -20,7 +20,7 @@ public class TaskFacade {
 
     public void save(Task task) {
         if (task.getDateCreated() == null) {
-            task.setDateCreated(new Date());
+            task.setDateCreated(LocalDateTime.now());
         }
         taskRepository.save(task);
     }
